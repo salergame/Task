@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход в админ-панель | Мама Такси</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Добавляем скрипт Supabase -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F9FAFB;
+      color: #1F2937;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .login-container {
+      max-width: 400px;
+      width: 100%;
+      padding: 2rem;
+    }
+    
+    .login-card {
+      background-color: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    
+    .logo-text {
+      margin-left: 12px;
+      font-weight: 700;
+      font-size: 20px;
+      color: #1F2937;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #1F2937;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #4B5563;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #D1D5DB;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .error-message {
+      color: #EF4444;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    
+    .error-message.show {
+      display: block;
+    }
+    
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #3B82F6;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .btn:hover {
+      background-color: #2563EB;
+    }
+    
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: #6B7280;
+      text-decoration: none;
+      font-size: 0.875rem;
+    }
+    
+    .back-link:hover {
+      color: #4B5563;
+      text-decoration: underline;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 3px solid rgba(59, 130, 246, 0.3);
+      border-radius: 50%;
+      border-top-color: #3B82F6;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="login-page">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="login-container">
+          <div class="login-header text-center">
+            <img src="assets/logo.png" alt="Мама Такси" class="logo">
+            <h1>Админ-панель</h1>
+            <p class="subtitle">Войдите, используя учетные данные администратора</p>
+          </div>
+          <div class="login-form">
+            <form id="login-form">
+              <div class="alert alert-danger" id="error-message" style="display: none;"></div>
+              <div class="form-group">
+                <label for="username">Email</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-user"></i>
+                  <input type="email" id="username" name="username" class="form-control" placeholder="Введите email" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password">Пароль</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-lock"></i>
+                  <input type="password" id="password" name="password" class="form-control" placeholder="Введите пароль" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="auth-code">Код авторизации</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-key"></i>
+                  <input type="password" id="auth-code" name="auth-code" class="form-control" placeholder="Введите код авторизации" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Войти</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="app.js"></script>
+</body>
+</html> 

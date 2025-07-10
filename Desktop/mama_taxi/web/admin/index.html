@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мама Такси - Админ-панель</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=18fb32f9-5ace-46c2-a283-8c60c38131a0&lang=ru_RU" type="text/javascript"></script>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Боковая панель -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <svg width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 0L30 24H0L15 0Z" fill="#000000"/>
+          </svg>
+          <span class="logo-text">Мама такси</span>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-item active">
+          <i class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 1.33333L1.33334 6.66667V14.6667H5.33334V9.33333H10.6667V14.6667H14.6667V6.66667L8 1.33333Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </i>
+          <span>Главная панель</span>
+        </div>
+        
+        <div class="nav-item">
+          <i class="nav-icon">
+            <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 15V13.3333C12 12.4493 11.6839 11.6014 11.1213 10.9763C10.5587 10.3512 9.79565 10 9 10H3C2.20435 10 1.44129 10.3512 0.87868 10.9763C0.316071 11.6014 0 12.4493 0 13.3333V15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 7C7.65685 7 9 5.65685 9 4C9 2.34315 7.65685 1 6 1C4.34315 1 3 2.34315 3 4C3 5.65685 4.34315 7 6 7Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M17 15V13.3333C16.9993 12.6062 16.7366 11.9027 16.2575 11.3526C15.7785 10.8024 15.1132 10.4351 14.4 10.3333" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11.4 1.33334C12.1153 1.43397 12.7823 1.80271 13.2622 2.35386C13.742 2.90501 14.0046 3.61056 14.0046 4.34001C14.0046 5.06946 13.742 5.77501 13.2622 6.32616C12.7823 6.87731 12.1153 7.24605 11.4 7.34667" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </i>
+          <a href="verification.html" class="nav-link">Верификация водителей</a>
+        </div>
+        
+        <div class="nav-item">
+          <i class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.3333 2H2.66667C1.74619 2 1 2.74619 1 3.66667V12.3333C1 13.2538 1.74619 14 2.66667 14H13.3333C14.2538 14 15 13.2538 15 12.3333V3.66667C15 2.74619 14.2538 2 13.3333 2Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M1 6H15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M1 10H15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </i>
+          <span>Управление заказами</span>
+        </div>
+        
+        <div class="nav-item">
+          <i class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2.66667H2C1.44772 2.66667 1 3.11438 1 3.66667V12.3333C1 12.8856 1.44772 13.3333 2 13.3333H14C14.5523 13.3333 15 12.8856 15 12.3333V3.66667C15 3.11438 14.5523 2.66667 14 2.66667Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M1 6.66667H15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5.33334 10H5.34334" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 10H8.01" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M10.6667 10H10.6767" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </i>
+          <span>Финансы и выплаты</span>
+        </div>
+        
+        <div class="nav-item logout">
+          <i class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V3.33333C2 2.97971 2.14048 2.64057 2.39052 2.39052C2.64057 2.14048 2.97971 2 3.33333 2H6" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M10.6667 11.3333L14 8L10.6667 4.66667" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 8H6" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </i>
+          <span>Выйти</span>
+        </div>
+      </nav>
+    </div>
+    
+    <!-- Основной контент -->
+    <div class="main-content">
+      <header class="header">
+        <div class="header-title">
+          <h1>Панель управления</h1>
+          <p>Обзор системы</p>
+        </div>
+        
+        <div class="header-profile">
+          <button class="notification-btn">
+            <i>
+              <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 16C8.10457 16 9 15.1046 9 14H5C5 15.1046 5.89543 16 7 16Z" fill="black"/>
+                <path d="M7 0C3.68629 0 1 2.68629 1 6V8.5C1 9.88071 0.116362 11 0 11H14C13.8836 11 13 9.88071 13 8.5V6C13 2.68629 10.3137 0 7 0Z" fill="black"/>
+              </svg>
+            </i>
+          </button>
+          
+          <div class="profile">
+            <img src="assets/admin-avatar.jpg" alt="Аватар администратора" class="profile-img">
+            <span class="profile-name">Админ</span>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Карточки статистики -->
+      <div class="stats-cards">
+        <div class="stats-card">
+          <div class="stats-card-content">
+            <div class="stats-info">
+              <p class="stats-label">Текущие поездки</p>
+              <h2 class="stats-value">247</h2>
+            </div>
+            <div class="stats-icon">
+              <svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.75 3.75H16.25V1.25H18.75V3.75ZM12.5 3.75H10V1.25H12.5V3.75ZM6.25 3.75H3.75V1.25H6.25V3.75ZM21.25 1.25V18.75H3.75V6.25H1.25V18.75C1.25 19.4404 1.51339 20.1027 1.98223 20.5716C2.45107 21.0404 3.11341 21.3038 3.80375 21.3038H21.25C21.9404 21.3038 22.6027 21.0404 23.0716 20.5716C23.5404 20.1027 23.8038 19.4404 23.8038 18.75V3.75C23.8038 3.05966 23.5404 2.39732 23.0716 1.92848C22.6027 1.45964 21.9404 1.19625 21.25 1.19625V1.25Z" fill="black"/>
+              </svg>
+            </div>
+          </div>
+          <div class="stats-trend">
+            <svg width="10.5" height="14" viewBox="0 0 10.5 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.25 1L9.25 5H6.75V13H3.75V5H1.25L5.25 1Z" fill="#10B981"/>
+            </svg>
+            <span class="trend-value positive">12%</span>
+            <span class="trend-period">с прошлого часа</span>
+          </div>
+        </div>
+        
+        <div class="stats-card">
+          <div class="stats-card-content">
+            <div class="stats-info">
+              <p class="stats-label">Ожидают верификации</p>
+              <h2 class="stats-value">12</h2>
+            </div>
+            <div class="stats-icon verification-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 8V12L15 15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="stats-trend">
+            <a href="verification.html" class="verification-link">Перейти к верификации</a>
+          </div>
+        </div>
+        
+        <!-- Добавьте здесь другие карточки статистики при необходимости -->
+      </div>
+      
+      <!-- Карта активных поездок -->
+      <div class="map-container">
+        <h3 class="section-title">Карта активных поездок</h3>
+        <div id="map" class="map"></div>
+      </div>
+      
+      <!-- Таблица последних действий -->
+      <div class="recent-actions">
+        <h3 class="section-title">Последние действия</h3>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Водитель</th>
+                <th>Клиент</th>
+                <th>Статус</th>
+                <th>Сумма</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#12345</td>
+                <td>
+                  <div class="user-info">
+                    <img src="assets/driver-avatar.jpg" alt="Водитель" class="user-avatar">
+                    <span>Иван П.</span>
+                  </div>
+                </td>
+                <td>Анна К.</td>
+                <td><span class="status-badge active">Активен</span></td>
+                <td>₽450</td>
+                <td>
+                  <button class="action-btn">
+                    <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 3.33333C9.55228 3.33333 10 2.88562 10 2.33333C10 1.78105 9.55228 1.33333 9 1.33333C8.44772 1.33333 8 1.78105 8 2.33333C8 2.88562 8.44772 3.33333 9 3.33333Z" fill="black"/>
+                      <path d="M9 8.66667C9.55228 8.66667 10 8.21895 10 7.66667C10 7.11438 9.55228 6.66667 9 6.66667C8.44772 6.66667 8 7.11438 8 7.66667C8 8.21895 8.44772 8.66667 9 8.66667Z" fill="black"/>
+                      <path d="M9 14C9.55228 14 10 13.5523 10 13C10 12.4477 9.55228 12 9 12C8.44772 12 8 12.4477 8 13C8 13.5523 8.44772 14 9 14Z" fill="black"/>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+              <!-- Добавьте здесь другие строки таблицы при необходимости -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script>
+    // Инициализация карты
+    ymaps.ready(initMap);
+    
+    function initMap() {
+      const map = new ymaps.Map('map', {
+        center: [55.751574, 37.573856], // Москва
+        zoom: 11,
+        controls: ['zoomControl']
+      });
+      
+      // Добавление автомобилей на карту (примеры)
+      const cars = [
+        {
+          coordinates: [55.762, 37.581],
+          status: 'active'
+        },
+        {
+          coordinates: [55.744, 37.565],
+          status: 'active'
+        },
+        {
+          coordinates: [55.730, 37.612],
+          status: 'active'
+        },
+        {
+          coordinates: [55.769, 37.598],
+          status: 'active'
+        }
+      ];
+      
+      // Создание меток для автомобилей
+      cars.forEach(car => {
+        const placemark = new ymaps.Placemark(car.coordinates, {}, {
+          iconLayout: 'default#image',
+          iconImageHref: 'assets/car-icon.svg',
+          iconImageSize: [24, 24],
+          iconImageOffset: [-12, -12]
+        });
+        
+        map.geoObjects.add(placemark);
+      });
+    }
+  </script>
+</body>
+</html> 

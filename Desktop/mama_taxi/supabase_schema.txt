@@ -1,0 +1,102 @@
+-- Supabase schema for mama_taxi
+-- Скопируйте и выполните эти команды в Supabase SQL Editor
+
+-- Таблица водителей
+CREATE TABLE drivers (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  passport_url TEXT,
+  driver_license_url TEXT,
+  self_employed_doc_url TEXT,
+  taxi_registry_doc_url TEXT,
+  carrier_permission_url TEXT,
+  criminal_record_url TEXT,
+  tuberculosis_cert_url TEXT,
+  status TEXT DEFAULT 'pending',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Таблица обращений в поддержку
+CREATE TABLE support_tickets (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  subject TEXT NOT NULL,
+  description TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  operator_response TEXT,
+  responded_at TIMESTAMP WITH TIME ZONE,
+  estimated_response_time INTEGER DEFAULT 30,
+  CONSTRAINT status_check CHECK (status IN ('pending', 'in_progress', 'resolved', 'closed'))
+);
+
+CREATE TABLE support_messages (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  ticket_id UUID NOT NULL REFERENCES support_tickets(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  is_from_support BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE support_files (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  ticket_id UUID NOT NULL REFERENCES support_tickets(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  file_url TEXT NOT NULL,
+  file_name TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Таблица лояльности
+CREATE TABLE loyalty (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  points INTEGER DEFAULT 0,
+  level INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+CREATE TABLE loyalty_history (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  points INTEGER NOT NULL,
+  description TEXT,
+  type TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Пример отдельной таблицы для документов водителя (если нужно)
+-- CREATE TABLE driver_documents (
+--   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+--   driver_id UUID NOT NULL REFERENCES drivers(id) ON DELETE CASCADE,
+--   doc_type TEXT NOT NULL,
+--   file_url TEXT NOT NULL,
+--   uploaded_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+-- );
+
+-- Включить расширение uuid-ossp, если не включено
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Включить RLS (Row Level Security) для всех таблиц
+ALTER TABLE drivers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE support_tickets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE support_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE support_files ENABLE ROW LEVEL SECURITY;
+ALTER TABLE loyalty ENABLE ROW LEVEL SECURITY;
+ALTER TABLE loyalty_history ENABLE ROW LEVEL SECURITY;
+
+-- Пример политики доступа (разрешить пользователю видеть только свои записи)
+CREATE POLICY "Drivers can view their own profile" ON drivers FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Drivers can insert their own profile" ON drivers FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Аналогично создайте политики для других таблиц по необходимости
+
+-- Инструкция по применению:
+-- 1. Откройте Supabase -> SQL Editor
+-- 2. Вставьте содержимое этого файла
+-- 3. Выполните (Run)
+-- 4. Проверьте, что все таблицы созданы 
